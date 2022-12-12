@@ -1,0 +1,23 @@
+* {
+  font-family: "Hevetica";
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+  --colorDanger: #e0234e;
+  --colorBg: #121214;
+  --colorTitle: #e1e1e6;
+}
+body {
+  background-color: #111114;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+  transition: 0.5s;
+}
+a:hover {
+  color: #ccc;
+}
