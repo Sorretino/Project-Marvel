@@ -8,7 +8,7 @@ As histórias que vamos modelar são:
 - "O endereço deve ser usado na API disponibilizada para conseguir utilizar as rotas"
 - "Home listagem de personagens da Marvel com paginação disponibilizadas pela nossa api local"
 - "Uma rota de detalhe do personagem"
-- "Arqivo de configuração da api se encontra em src/util/config.ts ja configurada para funcionar com a api local.
+- "Arquivo de configuração da api se encontra em src/util/config.ts, configurada para funcionar com a api local.
 
 ````
 
