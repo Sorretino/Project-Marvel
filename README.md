@@ -96,7 +96,12 @@ esta rota apresentará personagem da Marvel unico, segue o id exemplo real na ap
 (GET)-http://localhost:3333/marvel/1010354
 
 ```
+8. Font-end React.js:
+Disponivel na pasta frontend.
+```
 
+
+```
 ### Observações
 
 Este código é um exemplo de como aplicar a teoria do DDD em um projeto Node.js / Ts, com algumas adaptações pertinentes a linguagem.

@@ -1,20 +1,23 @@
-import React, { useEffect, useState, useMemo, useLayoutEffect } from "react";
-import SiteLayout from '~/layouts/site';
+import React, { SyntheticEvent, useEffect, useMemo, useState } from "react";
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { BsChevronDown } from "react-icons/bs";
+import { TiMediaPlay, TiMediaPlayReverse } from "react-icons/ti";
+import { Link, useLocation } from "react-router-dom";
 import Cards from '~/components/Cards';
-import { useLocation, Link } from "react-router-dom";
-import API from '~/services/api';
-import { 
-    PaginationButtons,
-    PaginationContainer,
-    PaginateNumbers,
-    SectorGlobal,
-    SectorSelected,
-
-  } from '~/styles/home';
 import Loading from "~/components/Loading";
-import {TiMediaPlayReverse,TiMediaPlay} from "react-icons/ti"
+import SiteLayout from '~/layouts/site';
+import API from '~/services/api';
+import {
+  BtnSeacher, ContainerFilters, ContainerList,
+  ContainerSpan, ContainerTitle, Drop3sdMaster, PaginateNumbers, PaginationButtons,
+  PaginationContainer, SectorBtnTable, SectoresSearche, SectorGlobal,
+  SectorSelected,InputCheckCuston
+} from '~/styles/home';
 
 type overType =  number | null;
+type filterData = {
+  filter: string;
+}
 
 function useQuery() {
   const { search } = useLocation();
@@ -23,11 +26,14 @@ function useQuery() {
 
 const Guest= () => {
   let query = useQuery();
+  const { register, handleSubmit } = useForm();
   const [ characters, setCharacters ] = useState<any>();
   const [ limit, setLimit ] = useState<number>(20);
   const [ pages, setPages ] = useState<number>(1);
   const [ actual, setActual] = useState<number>(1);
   const [ load, setLoad ] = useState<boolean>(false);
+  const [openSelect, setOpenSelect] = useState<boolean>(false);
+  const [ filterName, setFilterName ] = useState<string>('da Personagem');
   const [ filterType, setFilterType ] = useState<string>('name');
   const [ filterValue, setFilterValue ] = useState<string>('name');
   const [ execFilter, setExecFilter ] = useState<boolean>(false);
@@ -92,16 +98,113 @@ const Guest= () => {
       setLoad(false);
     }, 3000);
   }, []);
+
+  const changeFilter = (value: string) => {
+    switch (value) {
+      case 'name':
+          setFilterName('da Personagem');
+          setFilterType('name');
+        break;
+      case 'comics':
+          setFilterName('da HQ');
+          setFilterType('comics');
+        break;
+      case 'series':
+          setFilterName('da Seríe');
+          setFilterType('series');
+        break;
+      case 'events':
+          setFilterName('de Evento');
+          setFilterType('events');
+        break;
+      case 'stories':
+          setFilterName('da História');
+          setFilterType('stories');
+        break;
+      default:
+        break;
+    }
+  }
+
+  const handleFilter  =  (data:any, e:SyntheticEvent):void => {
+    console.log('chegou aqui');
+    console.log(data);
+    let converedValue: string = data.filter;
+    if (converedValue.length > 1)  {
+      converedValue = converedValue.replace(' ', '%20');
+      setFilterValue(converedValue);
+      setExecFilter(true);
+      getCharacters(0);
+      e.preventDefault();
+    }  
+  };
+
   return (
     <SiteLayout>
+     
       <>
       <SectorGlobal>
-         <SectorSelected/>
+      <SectorSelected>
+        <SectoresSearche
+         onClick={() => {
+          setOpenSelect(true) }}
+          >Filmes <BsChevronDown id="IconMove"/>
+          </SectoresSearche>
+         {openSelect && (
+         
+         
+         
+    <Drop3sdMaster  onMouseLeave={()=> {setOpenSelect(false)}} onSubmit={event=> handleSubmit(handleFilter, event)}> 
+      <ContainerTitle>Selecione uma opção</ContainerTitle>
+        <SectorBtnTable>
+          <ContainerList>
+            <input type="text" placeholder={`Pesquisa por Nome ${filterName}`} {...register('filter')}/>
+          </ContainerList>
+
+          <ContainerList id="name">
+          <InputCheckCuston type="checkbox" onClick={()=> {changeFilter('name')}} />
+          <ContainerSpan >Nome do Personagem</ContainerSpan>
+          </ContainerList>
+
+          <ContainerList id="comics">
+            <InputCheckCuston type="checkbox" onClick={()=> {changeFilter('comics')}} />
+          <ContainerSpan  >Nome da HQ</ContainerSpan>
+          </ContainerList>
+  
+           <ContainerList id="series">
+           <InputCheckCuston type="checkbox" onClick={()=> {changeFilter('series')}}/>
+          <ContainerSpan  >Nome da Seríe</ContainerSpan>
+          </ContainerList>
+
+           <ContainerList id="events">
+           <InputCheckCuston type="checkbox" onClick={()=> {changeFilter('events')}}/>
+          <ContainerSpan  >Nome de Evento</ContainerSpan>
+          </ContainerList>
+          
+          <ContainerList id="stories"> 
+          <InputCheckCuston type="checkbox" onClick={()=> {changeFilter('stories')}}/>
+          <ContainerSpan >Nome da História</ContainerSpan>
+          </ContainerList>
+         
+          </SectorBtnTable>
+
+          <ContainerFilters>
+            <BtnSeacher type="submit">Pesquisar</BtnSeacher>
+          </ContainerFilters>
+    </Drop3sdMaster>
+         
+         
+         
+         )}
+         </SectorSelected>
+         
+
        <Cards characters={characters} title="Personagens" />
      <React.Fragment>
      <PaginationContainer>
       {load == true ?(<Loading/>):(<></>)}
       {actual > 1 && (
+       
        
         <PaginationButtons>
           <Link to={`/?page=${actual - 1}`} onClick={previus}>
