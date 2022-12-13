@@ -102,7 +102,7 @@ const Guest= () => {
   const changeFilter = (value: string) => {
     switch (value) {
       case 'name':
-          setFilterName('da Personagem');
+          setFilterName('do Personagem');
           setFilterType('name');
         break;
       case 'comics':
@@ -127,8 +127,6 @@ const Guest= () => {
   }
 
   const handleFilter  =  (data:any, e:SyntheticEvent):void => {
-    console.log('chegou aqui');
-    console.log(data);
     let converedValue: string = data.filter;
     if (converedValue.length > 1)  {
       converedValue = converedValue.replace(' ', '%20');
@@ -155,7 +153,7 @@ const Guest= () => {
          
          
     <Drop3sdMaster  onMouseLeave={()=> {setOpenSelect(false)}} onSubmit={event=> handleSubmit(handleFilter, event)}> 
-      <ContainerTitle>Selecione uma opção</ContainerTitle>
+      <ContainerTitle>Pesquisando pelo nome {filterName} </ContainerTitle>
         <SectorBtnTable>
           <ContainerList>
             <input type="text" placeholder={`Pesquisa por Nome ${filterName}`} {...register('filter')}/>

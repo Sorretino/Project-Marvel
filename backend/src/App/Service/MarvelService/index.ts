@@ -45,7 +45,7 @@ class MarvelService {
       URI += `&stories=${stories}`;
       ParamsReport += ` | stories=${stories}`;
     }
-
+    console.log("console", URI);
     const { data }: any = await api.get(URI);
     const props: LogProps = {
       url: "characters",
@@ -53,37 +53,6 @@ class MarvelService {
     };
     await CreateLog.execute(props);
     res.status(200).json(data);
-    // const { offset, limit, name, comics, series, events, stories } = req.query;
-    // let ParamsReport = `offset=${offset || 0} | limit=${limit || 20}`;
-    // let URI = `characters${MARVEL_SEC}&offset=${offset || 0}&limit=${limit || 20}`;
-    // if (name) {
-    //   URI += `&name=${name}}`;
-    //   ParamsReport += ` | name=${name}`;
-    // }
-    // if (comics) {
-    //   URI += `&comics=${comics}}`;
-    //   ParamsReport += ` | comics=${comics}`;
-    // }
-    // if (series) {
-    //   URI += `&series=${series}}`;
-    //   ParamsReport += ` | series=${series}`;
-    // }
-    // if (events) {
-    //   URI += `&events=${events}}`;
-    //   ParamsReport += ` | events=${events}`;
-    // }
-    // if (stories) {
-    //   URI += `&stories=${stories}}`;
-    //   ParamsReport += ` | stories=${stories}`;
-    // }
-
-    // const { data }: any = await api.get(URI);
-    // const props: LogProps = {
-    //   url: "characters",
-    //   params: ParamsReport,
-    // };
-    // await CreateLog.execute(props);
-    // res.status(200).json(data);
   }
 
   async getCharacter(req: Request, res: Response) {
